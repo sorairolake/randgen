@@ -325,4 +325,4 @@ WARRANTY, to the extent permitted by law.
 
 == SEE ALSO
 
-*openssl-rand*(1)
+*gpg*(1), *openssl-rand*(1)
