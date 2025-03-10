@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: 2025 Shun Sakai
+#
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+
+[package]
+name = "randgen"
+version = "0.1.0"
+authors = ["Shun Sakai <sorairolake@protonmail.ch>"]
+edition = "2024"
+rust-version = "1.85.0"
+description = "Generate pseudo-random bytes"
+readme = "README.md"
+repository = "https://github.com/sorairolake/randgen"
+license = "Apache-2.0 OR MIT"
+keywords = ["random"]
+categories = ["command-line-utilities"]
+include = ["/LICENSES", "/README.md", "/src"]
+
+[dependencies]
+anyhow = "1.0.97"
+base64 = { version = "0.22.1", optional = true }
+byte-unit = "5.1.6"
+clap = { version = "4.5.31", features = ["derive", "wrap_help"] }
+clap_complete = "4.5.46"
+clap_complete_nushell = "4.5.5"
+getrandom = "0.3.1"
+hex = { version = "0.4.3", optional = true }
+rand_chacha = "0.9.0"
+rand_core = { version = "0.9.3", features = ["os_rng", "std"] }
+rand_hc = { version = "0.4.0", optional = true }
+rand_isaac = { version = "0.4.0", optional = true }
+rand_mt = { version = "5.0.0", optional = true }
+rand_pcg = { version = "0.9.0", optional = true }
+rand_sfc = { version = "0.1.4", optional = true }
+rand_xorshift = { version = "0.4.0", optional = true }
+rand_xoshiro = "0.7.0"
+sysexits = "0.9.0"
+
+[dev-dependencies]
+assert_cmd = "2.0.16"
+predicates = "3.1.3"
+
+[features]
+default = ["base64", "hc", "hex", "isaac", "mt", "pcg", "sfc", "xorshift"]
+base64 = ["dep:base64"]
+hc = ["dep:rand_hc"]
+hex = ["dep:hex"]
+isaac = ["dep:rand_isaac"]
+mt = ["dep:rand_mt"]
+pcg = ["dep:rand_pcg"]
+sfc = ["dep:rand_sfc"]
+xorshift = ["dep:rand_xorshift"]
+
+[lints.clippy]
+cargo = { level = "warn", priority = -1 }
+multiple_crate_versions = "allow"
+nursery = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+
+[lints.rust]
+missing_debug_implementations = "deny"
+rust_2018_idioms = { level = "warn", priority = -1 }
+unsafe_code = "forbid"
+
+[profile.release]
+codegen-units = 1
+lto = true
+panic = "abort"
+strip = true
