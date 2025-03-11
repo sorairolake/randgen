@@ -76,7 +76,7 @@ pub fn run() -> anyhow::Result<()> {
                     #[cfg(feature = "hex")]
                     Format::Hex => {
                         let s = hex::encode(&buf[..chunk_size]);
-                        writer.write_all(s.as_bytes()).context(
+                        write!(writer, "{s}").context(
                             "could not write hex encoded random bytes to standard output",
                         )?;
                     }
