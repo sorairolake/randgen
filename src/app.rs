@@ -75,7 +75,7 @@ pub fn run() -> anyhow::Result<()> {
                         .context("could not write raw random bytes to standard output")?,
                     #[cfg(feature = "hex")]
                     Format::Hex => {
-                        let s = hex::encode(&buf[..chunk_size]);
+                        let s = faster_hex::hex_string(&buf[..chunk_size]);
                         write!(writer, "{s}").context(
                             "could not write hex encoded random bytes to standard output",
                         )?;
