@@ -43,11 +43,13 @@ pub fn run() -> anyhow::Result<()> {
 
     match opt.format {
         #[cfg(feature = "base64")]
-        Format::Base64 => {
-            let mut writer = base64::write::EncoderWriter::new(
-                writer,
-                &base64::engine::general_purpose::STANDARD,
-            );
+        format @ (Format::Base64 | Format::Base64Url) => {
+            let engine = match format {
+                Format::Base64 => base64::engine::general_purpose::STANDARD,
+                Format::Base64Url => base64::engine::general_purpose::URL_SAFE,
+                _ => unreachable!(),
+            };
+            let mut writer = base64::write::EncoderWriter::new(writer, &engine);
             while remaining > 0 {
                 let chunk_size = CHUNK_SIZE.min(remaining);
                 rng.fill_bytes(&mut buf[..chunk_size]);
@@ -71,8 +73,6 @@ pub fn run() -> anyhow::Result<()> {
                     Format::Raw => writer
                         .write_all(&buf[..chunk_size])
                         .context("could not write raw random bytes to standard output")?,
-                    #[cfg(feature = "base64")]
-                    Format::Base64 => unreachable!(),
                     #[cfg(feature = "hex")]
                     Format::Hex => {
                         let s = hex::encode(&buf[..chunk_size]);
@@ -80,6 +80,8 @@ pub fn run() -> anyhow::Result<()> {
                             "could not write hex encoded random bytes to standard output",
                         )?;
                     }
+                    #[cfg(feature = "base64")]
+                    _ => unreachable!(),
                 }
                 remaining -= chunk_size;
             }

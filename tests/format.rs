@@ -69,6 +69,24 @@ fn base64() {
     );
 }
 
+#[cfg(feature = "base64")]
+#[test]
+fn base64url() {
+    let output = utils::command::command()
+        .arg("-f")
+        .arg("base64url")
+        .arg("-s")
+        .arg("256")
+        .arg("32B")
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    assert_eq!(
+        output.stdout,
+        "0X82yjVU1_JLdDU07ywJ_7CAJBwRTEVS_i1-kRgR6HQ=".as_bytes()
+    );
+}
+
 #[cfg(feature = "hex")]
 #[test]
 fn hex() {
