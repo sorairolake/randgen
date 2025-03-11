@@ -9,6 +9,8 @@ mod rng;
 use std::{io, process::ExitCode};
 
 fn main() -> ExitCode {
+    sigpipe::reset();
+
     match app::run() {
         Ok(()) => ExitCode::SUCCESS,
         Err(err) => {
