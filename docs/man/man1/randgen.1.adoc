@@ -13,8 +13,8 @@
 :mt-url: https://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/emt.html
 :pcg-url: https://www.pcg-random.org/
 :sfc-url: https://pracrand.sourceforge.net/RNG_engines.txt
-:chacha-url: https://cr.yp.to/chacha.html
 :xorshift-url: https://prng.di.unimi.it/
+:chacha-url: https://cr.yp.to/chacha.html
 :hc-128-url: https://en.wikipedia.org/wiki/HC-128
 :datatracker-html-doc: https://datatracker.ietf.org/doc/html
 :base64-url: {datatracker-html-doc}/rfc4648#section-4

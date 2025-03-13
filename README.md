@@ -157,8 +157,8 @@ licensing information.
 [Mersenne Twister]: https://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/emt.html
 [PCG]: https://www.pcg-random.org/
 [SFC]: https://pracrand.sourceforge.net/RNG_engines.txt
-[Xorshift]: https://cr.yp.to/chacha.html
-[ChaCha]: https://prng.di.unimi.it/
+[Xorshift]: https://prng.di.unimi.it/
+[ChaCha]: https://cr.yp.to/chacha.html
 [HC-128]: https://en.wikipedia.org/wiki/HC-128
 [`getrandom`]: https://man7.org/linux/man-pages/man2/getrandom.2.html
 [`randgen(1)`]: docs/man/man1/randgen.1.adoc
