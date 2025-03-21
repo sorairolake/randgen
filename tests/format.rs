@@ -99,10 +99,8 @@ fn base64_check_no_line_wrapping() {
         .unwrap();
     assert!(output.status.success());
     // More than 76 columns.
-    let expected = concat!(
-        "0X82yjVU1/JLdDU07ywJ/7CAJBwRTEVS/i1+kRgR6HQs",
-        "b9jFyQNuiFIBmrTucpwt+CZjZj90JYjE6D2erJEn6Q=="
-    );
+    let expected =
+        "0X82yjVU1/JLdDU07ywJ/7CAJBwRTEVS/i1+kRgR6HQsb9jFyQNuiFIBmrTucpwt+CZjZj90JYjE6D2erJEn6Q==";
     assert_eq!(output.stdout, expected.as_bytes());
 }
 
@@ -135,10 +133,8 @@ fn base64url_check_no_line_wrapping() {
         .unwrap();
     assert!(output.status.success());
     // More than 76 columns.
-    let expected = concat!(
-        "0X82yjVU1_JLdDU07ywJ_7CAJBwRTEVS_i1-kRgR6HQs",
-        "b9jFyQNuiFIBmrTucpwt-CZjZj90JYjE6D2erJEn6Q=="
-    );
+    let expected =
+        "0X82yjVU1_JLdDU07ywJ_7CAJBwRTEVS_i1-kRgR6HQsb9jFyQNuiFIBmrTucpwt-CZjZj90JYjE6D2erJEn6Q==";
     assert_eq!(output.stdout, expected.as_bytes());
 }
 
@@ -171,10 +167,8 @@ fn hex_check_no_line_wrapping() {
         .unwrap();
     assert!(output.status.success());
     // More than 60 columns.
-    let expected = concat!(
-        "d17f36ca3554d7f24b743534ef2c09ffb080241c114c4552fe2d7e911811e874",
-        "2c6fd8c5c9036e8852019ab4ee729c2df82663663f742588c4e83d9eac9127e9"
-    );
+    let expected = "d17f36ca3554d7f24b743534ef2c09ffb080241c114c4552fe2d7e911811e8742c6fd8c5c9036e\
+                    8852019ab4ee729c2df82663663f742588c4e83d9eac9127e9";
     assert_eq!(output.stdout, expected.as_bytes());
 }
 
