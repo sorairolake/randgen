@@ -163,6 +163,43 @@ $ randgen -s 256 128B | basenc --base64url
 Hr1yramxGwVm88LXhA8=
 ```
 
+### Comparison with similar things
+
+The following generates 64 KiB of random bytes and encodes it as base64:
+
+```sh
+randgen -f base64 64KiB
+```
+
+This section describes how to do the same thing with other things.
+
+#### OpenSSL
+
+[`openssl rand`] can be used for this purpose.
+
+```sh
+openssl rand -base64 64K
+```
+
+#### GnuPG
+
+[`gpg --gen-random`] can be used for this purpose.
+
+```sh
+gpg --gen-random 1 65536 | base64
+```
+
+#### Kernel random number source devices
+
+[`random(4)`] (`/dev/random` and `/dev/urandom`) can be used for this purpose.
+
+```sh
+head -c 65536 /dev/random | base64
+```
+
+> [!CAUTION]
+> Unlike `randgen`, these things wrap lines of the result.
+
 ## Command-line options
 
 Please see the following:
@@ -214,6 +251,9 @@ licensing information.
 [HC-128]: https://en.wikipedia.org/wiki/HC-128
 [`getrandom`]: https://man7.org/linux/man-pages/man2/getrandom.2.html
 [base32]: https://datatracker.ietf.org/doc/html/rfc4648#section-6
+[`openssl rand`]: https://docs.openssl.org/3.4/man1/openssl-rand/
+[`gpg --gen-random`]: https://gnupg.org/documentation/manuals/gnupg24/gpg.1.html
+[`random(4)`]: https://man7.org/linux/man-pages/man4/random.4.html
 [`randgen(1)`]: docs/man/man1/randgen.1.adoc
 [CHANGELOG.adoc]: CHANGELOG.adoc
 [CONTRIBUTING.adoc]: CONTRIBUTING.adoc
