@@ -12,8 +12,11 @@ use crate::{
     rng::Rng,
 };
 
-// 2 KiB.
-const CHUNK_SIZE: usize = 1 << 11;
+// 8 KiB.
+const CHUNK_SIZE: usize = 1 << 13;
+
+// 1 MiB.
+const BUF_SIZE: usize = 1 << 20;
 
 /// Runs the program and returns the result.
 pub fn run() -> anyhow::Result<()> {
@@ -32,7 +35,7 @@ pub fn run() -> anyhow::Result<()> {
     };
 
     let stdout = io::stdout();
-    let mut writer = BufWriter::new(stdout.lock());
+    let mut writer = BufWriter::with_capacity(BUF_SIZE, stdout.lock());
 
     let mut remaining = opt
         .length
@@ -99,6 +102,11 @@ mod tests {
 
     #[test]
     fn chunk_size() {
-        assert_eq!(CHUNK_SIZE, 2048);
+        assert_eq!(CHUNK_SIZE, 8192);
+    }
+
+    #[test]
+    fn buf_size() {
+        assert_eq!(BUF_SIZE, 1_048_576);
     }
 }
