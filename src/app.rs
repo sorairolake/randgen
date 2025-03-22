@@ -12,11 +12,11 @@ use crate::{
     rng::Rng,
 };
 
-// 8 KiB.
-const CHUNK_SIZE: usize = 1 << 13;
-
 // 1 MiB.
 const BUF_SIZE: usize = 1 << 20;
+
+// 8 KiB.
+const CHUNK_SIZE: usize = 1 << 13;
 
 /// Runs the program and returns the result.
 pub fn run() -> anyhow::Result<()> {
@@ -101,12 +101,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn chunk_size() {
-        assert_eq!(CHUNK_SIZE, 8192);
+    fn buf_size() {
+        assert_eq!(BUF_SIZE, 1_048_576);
     }
 
     #[test]
-    fn buf_size() {
-        assert_eq!(BUF_SIZE, 1_048_576);
+    fn chunk_size() {
+        assert_eq!(CHUNK_SIZE, 8192);
     }
 }
