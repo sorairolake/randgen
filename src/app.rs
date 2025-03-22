@@ -34,13 +34,22 @@ pub fn run() -> anyhow::Result<()> {
         Rng::try_from_os_rng(&rng).context("could not create a new instance of the RNG")?
     };
 
-    let stdout = io::stdout();
-    let mut writer = BufWriter::with_capacity(BUF_SIZE, stdout.lock());
-
     let mut remaining = opt
         .length
         .expect("the number of bytes to generate should be provided")
         .try_into()?;
+    let buf_size = match opt.format {
+        Format::Raw => remaining,
+        #[cfg(feature = "base64")]
+        Format::Base64 | Format::Base64Url => {
+            base64::encoded_len(remaining, true).unwrap_or(BUF_SIZE)
+        }
+        #[cfg(feature = "hex")]
+        Format::Hex => remaining.saturating_mul(2),
+    };
+
+    let stdout = io::stdout();
+    let mut writer = BufWriter::with_capacity(BUF_SIZE.min(buf_size), stdout.lock());
 
     let mut buf = [u8::default(); CHUNK_SIZE];
 
