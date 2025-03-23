@@ -38,18 +38,17 @@ pub fn run() -> anyhow::Result<()> {
         .length
         .expect("the number of bytes to generate should be provided")
         .try_into()?;
-    let buf_size = match opt.format {
-        Format::Raw => remaining,
+    let output_length = match opt.format {
+        Format::Raw => Some(remaining),
         #[cfg(feature = "base64")]
-        Format::Base64 | Format::Base64Url => {
-            base64::encoded_len(remaining, true).unwrap_or(BUF_SIZE)
-        }
+        Format::Base64 | Format::Base64Url => base64::encoded_len(remaining, true),
         #[cfg(feature = "hex")]
-        Format::Hex => remaining.saturating_mul(2),
-    };
+        Format::Hex => remaining.checked_mul(2),
+    }
+    .context("output is too long")?;
 
     let stdout = io::stdout();
-    let mut writer = BufWriter::with_capacity(BUF_SIZE.min(buf_size), stdout.lock());
+    let mut writer = BufWriter::with_capacity(BUF_SIZE.min(output_length), stdout.lock());
 
     let mut buf = [u8::default(); CHUNK_SIZE];
 
