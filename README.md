@@ -108,6 +108,21 @@ $ randgen -r sfc32 -s 8 32B | xxd -c 0 -p
 24f48cd0c3f6a1c6e8d7b4dcff9578864aced749e4eb1805dfba8b6e21d0cba0
 ```
 
+### Print the progress bar
+
+When `-p` option is specified, `randgen` will print information showing the
+progress of the generation of random bytes.
+
+```sh
+randgen -p 4GiB > /dev/null
+```
+
+This is similar to the following example which uses [`pv(1)`]:
+
+```sh
+randgen 4GiB | pv -s 4G > /dev/null
+```
+
 ### Generate shell completion
 
 `--generate-completion` option generates shell completions to standard output.
@@ -175,7 +190,7 @@ This section describes how to do the same thing with other things.
 
 #### OpenSSL
 
-[`openssl rand`] can be used for this purpose.
+[`openssl-rand(1ssl)`] can be used for this purpose.
 
 ```sh
 openssl rand -base64 64K
@@ -250,8 +265,9 @@ licensing information.
 [ChaCha]: https://cr.yp.to/chacha.html
 [HC-128]: https://en.wikipedia.org/wiki/HC-128
 [`getrandom`]: https://man7.org/linux/man-pages/man2/getrandom.2.html
+[`pv(1)`]: https://www.ivarch.com/programs/quickref/pv.shtml
 [base32]: https://datatracker.ietf.org/doc/html/rfc4648#section-6
-[`openssl rand`]: https://docs.openssl.org/3.4/man1/openssl-rand/
+[`openssl-rand(1ssl)`]: https://docs.openssl.org/3.4/man1/openssl-rand/
 [`gpg --gen-random`]: https://gnupg.org/documentation/manuals/gnupg24/gpg.1.html
 [`random(4)`]: https://man7.org/linux/man-pages/man4/random.4.html
 [`randgen(1)`]: docs/man/man1/randgen.1.adoc
