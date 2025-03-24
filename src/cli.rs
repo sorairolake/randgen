@@ -66,6 +66,11 @@ pub struct Opt {
     #[arg(short, long, value_name("NUMBER"))]
     pub seed: Option<u64>,
 
+    /// Print information showing the progress of the generation of random
+    /// bytes.
+    #[arg(short, long)]
+    pub progress: bool,
+
     /// Generate shell completion.
     ///
     /// The completion is output to standard output.

@@ -185,3 +185,42 @@ fn invalid_format() {
             "invalid value 'a' for '--format <FORMAT>'",
         ));
 }
+
+#[cfg(feature = "base64")]
+#[test]
+fn base64_with_too_long_output() {
+    utils::command::command()
+        .arg("-f")
+        .arg("base64")
+        .arg("12EiB")
+        .assert()
+        .failure()
+        .code(1)
+        .stderr(predicate::str::contains("output is too long"));
+}
+
+#[cfg(feature = "base64")]
+#[test]
+fn base64url_with_too_long_output() {
+    utils::command::command()
+        .arg("-f")
+        .arg("base64url")
+        .arg("12EiB")
+        .assert()
+        .failure()
+        .code(1)
+        .stderr(predicate::str::contains("output is too long"));
+}
+
+#[cfg(feature = "hex")]
+#[test]
+fn hex_with_too_long_output() {
+    utils::command::command()
+        .arg("-f")
+        .arg("hex")
+        .arg("8EiB")
+        .assert()
+        .failure()
+        .code(1)
+        .stderr(predicate::str::contains("output is too long"));
+}

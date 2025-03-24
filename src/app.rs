@@ -6,17 +6,22 @@ use std::io::{self, BufWriter, Write};
 
 use anyhow::Context;
 use clap::Parser;
+use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 
 use crate::{
     cli::{Format, Opt},
     rng::Rng,
 };
 
-// 8 KiB.
-const CHUNK_SIZE: usize = 1 << 13;
+// The template string for the progress bar.
+const TEMPLATE: &str = "{spinner:.green} [{elapsed_precise}] {wide_bar:.cyan/blue} {percent}% \
+                        {binary_bytes}/{binary_total_bytes} ({binary_bytes_per_sec}, ETA {eta})";
 
 // 1 MiB.
 const BUF_SIZE: usize = 1 << 20;
+
+// 8 KiB.
+const CHUNK_SIZE: usize = 1 << 13;
 
 /// Runs the program and returns the result.
 pub fn run() -> anyhow::Result<()> {
@@ -34,13 +39,31 @@ pub fn run() -> anyhow::Result<()> {
         Rng::try_from_os_rng(&rng).context("could not create a new instance of the RNG")?
     };
 
-    let stdout = io::stdout();
-    let mut writer = BufWriter::with_capacity(BUF_SIZE, stdout.lock());
-
     let mut remaining = opt
         .length
         .expect("the number of bytes to generate should be provided")
         .try_into()?;
+    let output_length = match opt.format {
+        Format::Raw => Some(remaining),
+        #[cfg(feature = "base64")]
+        Format::Base64 | Format::Base64Url => base64::encoded_len(remaining, true),
+        #[cfg(feature = "hex")]
+        Format::Hex => remaining.checked_mul(2),
+    }
+    .context("output is too long")?;
+
+    let pb = if opt.progress {
+        let style = ProgressStyle::with_template(TEMPLATE)?;
+        ProgressBar::new(u64::try_from(output_length)?)
+            .with_style(style)
+            .with_finish(ProgressFinish::AndLeave)
+    } else {
+        ProgressBar::hidden()
+    };
+
+    let stdout = io::stdout();
+    let writer = BufWriter::with_capacity(BUF_SIZE.min(output_length), stdout.lock());
+    let mut writer = pb.wrap_write(writer);
 
     let mut buf = [u8::default(); CHUNK_SIZE];
 
@@ -101,12 +124,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn chunk_size() {
-        assert_eq!(CHUNK_SIZE, 8192);
+    fn buf_size() {
+        assert_eq!(BUF_SIZE, 1_048_576);
     }
 
     #[test]
-    fn buf_size() {
-        assert_eq!(BUF_SIZE, 1_048_576);
+    fn chunk_size() {
+        assert_eq!(CHUNK_SIZE, 8192);
     }
 }
