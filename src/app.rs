@@ -6,11 +6,16 @@ use std::io::{self, BufWriter, Write};
 
 use anyhow::Context;
 use clap::Parser;
+use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 
 use crate::{
     cli::{Format, Opt},
     rng::Rng,
 };
+
+// The template string for the progress bar.
+const TEMPLATE: &str = "{spinner:.green} [{elapsed_precise}] {wide_bar:.cyan/blue} {percent}% \
+                        {binary_bytes}/{binary_total_bytes} ({binary_bytes_per_sec}, ETA {eta})";
 
 // 1 MiB.
 const BUF_SIZE: usize = 1 << 20;
@@ -47,8 +52,18 @@ pub fn run() -> anyhow::Result<()> {
     }
     .context("output is too long")?;
 
+    let pb = if opt.progress {
+        let style = ProgressStyle::with_template(TEMPLATE)?;
+        ProgressBar::new(u64::try_from(output_length)?)
+            .with_style(style)
+            .with_finish(ProgressFinish::AndLeave)
+    } else {
+        ProgressBar::hidden()
+    };
+
     let stdout = io::stdout();
-    let mut writer = BufWriter::with_capacity(BUF_SIZE.min(output_length), stdout.lock());
+    let writer = BufWriter::with_capacity(BUF_SIZE.min(output_length), stdout.lock());
+    let mut writer = pb.wrap_write(writer);
 
     let mut buf = [u8::default(); CHUNK_SIZE];
 

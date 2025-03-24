@@ -4,7 +4,7 @@
 
 = randgen(1)
 // Specify in UTC.
-:docdate: 2025-03-23
+:docdate: 2025-03-24
 :revnumber: 0.1.2
 :doctype: manpage
 :icons: font
@@ -244,6 +244,10 @@ bytes specified in the _BYTES_ positional argument.
   Random seed to use. If this option is not specified, the RNG seeded via
   random data from system sources such as the
   {getrandom-man-page-url}[`getrandom`] system call on Linux.
+
+*-p*, *--progress*::
+
+  Print information showing the progress of the generation of random bytes.
 
 *-h*, *--help*::
 

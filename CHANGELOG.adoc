@@ -16,6 +16,10 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 == {compare-url}/v0.1.2\...HEAD[Unreleased]
 
+=== Added
+
+* Add `--progress` option ({pull-request-url}/20[#20])
+
 === Changed
 
 * Change the buffer capacity when output is small ({pull-request-url}/17[#17])
