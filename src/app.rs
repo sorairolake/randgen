@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-use std::io::{self, BufWriter, Write};
+use std::io::{self, BufWriter, IsTerminal, Write};
 
 use anyhow::Context;
 use clap::Parser;
@@ -52,7 +52,9 @@ pub fn run() -> anyhow::Result<()> {
     }
     .context("output is too long")?;
 
-    let pb = if opt.progress {
+    let stdout = io::stdout().lock();
+
+    let pb = if opt.progress && !stdout.is_terminal() {
         let style = ProgressStyle::with_template(TEMPLATE)?;
         ProgressBar::new(u64::try_from(output_length)?)
             .with_style(style)
@@ -61,8 +63,7 @@ pub fn run() -> anyhow::Result<()> {
         ProgressBar::hidden()
     };
 
-    let stdout = io::stdout();
-    let writer = BufWriter::with_capacity(BUF_SIZE.min(output_length), stdout.lock());
+    let writer = BufWriter::with_capacity(BUF_SIZE.min(output_length), stdout);
     let mut writer = pb.wrap_write(writer);
 
     let mut buf = [u8::default(); CHUNK_SIZE];
