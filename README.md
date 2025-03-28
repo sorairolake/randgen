@@ -14,6 +14,8 @@ SPDX-License-Identifier: Apache-2.0 OR MIT
 **randgen** is a tool which generates random bytes using a pseudorandom number
 generator (PRNG).
 
+![Demo animation](assets/demo.gif)
+
 ## Installation
 
 ### From source
