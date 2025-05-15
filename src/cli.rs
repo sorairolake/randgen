@@ -12,14 +12,7 @@ use clap_complete::Generator;
 #[command(version, about, max_term_width(100))]
 pub struct Opt {
     /// Output in the specified output format.
-    #[arg(
-        short,
-        long,
-        value_enum,
-        default_value_t,
-        value_name("FORMAT"),
-        ignore_case(true)
-    )]
+    #[arg(short, long, value_enum, default_value_t, ignore_case(true))]
     pub format: Format,
 
     /// Random number generator to use.
