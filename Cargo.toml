@@ -32,7 +32,7 @@ rand_hc = { version = "0.4.0", optional = true }
 rand_isaac = { version = "0.4.0", optional = true }
 rand_mt = { version = "5.0.0", optional = true }
 rand_pcg = { version = "0.9.0", optional = true }
-rand_sfc = { version = "0.1.4", optional = true }
+rand_sfc = { version = "0.1.5", optional = true }
 rand_xorshift = { version = "0.4.0", optional = true }
 rand_xoshiro = "0.7.0"
 sigpipe = "0.1.3"
