@@ -715,9 +715,9 @@ dependencies = [
 
 [[package]]
 name = "rand_sfc"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01088cbe5074a9de77c402442d8de271f78d89b61e5788b3d97f62eb9a0bf33b"
+checksum = "aeac24e1141afb260b799e09d7cd964fdb20bff175a57d70c4e5ce8141f5f294"
 dependencies = [
  "rand_core 0.9.3",
 ]
