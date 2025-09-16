@@ -5,11 +5,9 @@
 [package]
 name = "randgen"
 version = "0.1.6"
-authors = ["Shun Sakai <sorairolake@protonmail.ch>"]
 edition = "2024"
 rust-version = "1.85.0"
 description = "Generate pseudo-random bytes"
-readme = "README.md"
 repository = "https://github.com/sorairolake/randgen"
 license = "Apache-2.0 OR MIT"
 keywords = ["random"]
