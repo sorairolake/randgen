@@ -5,7 +5,7 @@
 use std::io::{self, Write};
 
 use byte_unit::Byte;
-use clap::{CommandFactory, Parser, ValueEnum};
+use clap::{Command, CommandFactory, Parser, ValueEnum};
 use clap_complete::Generator;
 
 #[derive(Debug, Parser)]
@@ -105,7 +105,7 @@ impl Generator for Shell {
         }
     }
 
-    fn generate(&self, cmd: &clap::Command, buf: &mut dyn Write) {
+    fn generate(&self, cmd: &Command, buf: &mut dyn Write) {
         match self {
             Self::Bash => clap_complete::Shell::Bash.generate(cmd, buf),
             Self::Elvish => clap_complete::Shell::Elvish.generate(cmd, buf),

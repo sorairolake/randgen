@@ -6,16 +6,18 @@ mod utils;
 
 use predicates::prelude::predicate;
 
+use crate::utils::command;
+
 #[test]
 fn basic() {
-    let output = utils::command::command().arg("1KiB").output().unwrap();
+    let output = command::command().arg("1KiB").output().unwrap();
     assert!(output.status.success());
     assert_eq!(output.stdout.len(), 1024);
 }
 
 #[test]
 fn missing_length() {
-    utils::command::command()
+    command::command()
         .assert()
         .failure()
         .code(2)
@@ -27,21 +29,21 @@ fn missing_length() {
 
 #[test]
 fn length_is_zero() {
-    let output = utils::command::command().arg("0").output().unwrap();
+    let output = command::command().arg("0").output().unwrap();
     assert!(output.status.success());
     assert!(output.stdout.is_empty());
 }
 
 #[test]
 fn validate_length_with_unit() {
-    let output = utils::command::command().arg("256 B").output().unwrap();
+    let output = command::command().arg("256 B").output().unwrap();
     assert!(output.status.success());
     assert_eq!(output.stdout.len(), 256);
 }
 
 #[test]
 fn validate_length_without_unit() {
-    let output = utils::command::command().arg("256").output().unwrap();
+    let output = command::command().arg("256").output().unwrap();
     assert!(output.status.success());
     assert_eq!(output.stdout.len(), 256);
 }
@@ -49,22 +51,22 @@ fn validate_length_without_unit() {
 #[test]
 fn validate_length_with_byte_prefix() {
     {
-        let output = utils::command::command().arg("2048 KiB").output().unwrap();
+        let output = command::command().arg("2048 KiB").output().unwrap();
         assert!(output.status.success());
         assert_eq!(output.stdout.len(), 2_097_152);
     }
     {
-        let output = utils::command::command().arg("2.00 MiB").output().unwrap();
+        let output = command::command().arg("2.00 MiB").output().unwrap();
         assert!(output.status.success());
         assert_eq!(output.stdout.len(), 2_097_152);
     }
     {
-        let output = utils::command::command().arg("2MiB").output().unwrap();
+        let output = command::command().arg("2MiB").output().unwrap();
         assert!(output.status.success());
         assert_eq!(output.stdout.len(), 2_097_152);
     }
     {
-        let output = utils::command::command().arg("4kB").output().unwrap();
+        let output = command::command().arg("4kB").output().unwrap();
         assert!(output.status.success());
         assert_eq!(output.stdout.len(), 4000);
     }
@@ -72,13 +74,13 @@ fn validate_length_with_byte_prefix() {
 
 #[test]
 fn validate_length_with_invalid_unit() {
-    utils::command::command()
+    command::command()
         .arg("2048 A")
         .assert()
         .failure()
         .code(2)
         .stderr(predicate::str::contains("the character 'A' is incorrect"));
-    utils::command::command()
+    command::command()
         .arg("2.00LiB")
         .assert()
         .failure()
@@ -88,7 +90,7 @@ fn validate_length_with_invalid_unit() {
 
 #[test]
 fn validate_length_with_nan() {
-    utils::command::command()
+    command::command()
         .arg("n B")
         .assert()
         .failure()
@@ -96,7 +98,7 @@ fn validate_length_with_nan() {
         .stderr(predicate::str::contains(
             "the character 'n' is not a number",
         ));
-    utils::command::command()
+    command::command()
         .arg("n")
         .assert()
         .failure()
@@ -104,7 +106,7 @@ fn validate_length_with_nan() {
         .stderr(predicate::str::contains(
             "the character 'n' is not a number",
         ));
-    utils::command::command()
+    command::command()
         .arg("nKiB")
         .assert()
         .failure()

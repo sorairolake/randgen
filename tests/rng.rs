@@ -6,10 +6,12 @@ mod utils;
 
 use predicates::prelude::predicate;
 
+use crate::utils::command;
+
 #[test]
 fn rng() {
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro256++")
             .arg("1KiB")
@@ -19,7 +21,7 @@ fn rng() {
         assert_eq!(output.stdout.len(), 1024);
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("--random-number-generator")
             .arg("xoshiro256++")
             .arg("1KiB")
@@ -33,7 +35,7 @@ fn rng() {
 #[test]
 fn rng_with_seed() {
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("chacha8")
             .arg("-s")
@@ -48,7 +50,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("chacha12")
             .arg("-s")
@@ -63,7 +65,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("chacha20")
             .arg("-s")
@@ -79,7 +81,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "hc")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("hc128")
             .arg("-s")
@@ -95,7 +97,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "isaac")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("isaac")
             .arg("-s")
@@ -111,7 +113,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "isaac")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("isaac64")
             .arg("-s")
@@ -127,7 +129,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "mt")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("mt")
             .arg("-s")
@@ -143,7 +145,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "mt")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("mt64")
             .arg("-s")
@@ -159,7 +161,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "pcg")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("pcg32")
             .arg("-s")
@@ -175,7 +177,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "pcg")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("pcg64")
             .arg("-s")
@@ -191,7 +193,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "pcg")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("pcg64dxsm")
             .arg("-s")
@@ -207,7 +209,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "pcg")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("pcg64mcg")
             .arg("-s")
@@ -223,7 +225,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "sfc")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("sfc32")
             .arg("-s")
@@ -239,7 +241,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "sfc")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("sfc64")
             .arg("-s")
@@ -254,7 +256,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("splitmix64")
             .arg("-s")
@@ -270,7 +272,7 @@ fn rng_with_seed() {
     }
     #[cfg(feature = "xorshift")]
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xorshift")
             .arg("-s")
@@ -285,7 +287,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoroshiro64*")
             .arg("-s")
@@ -300,7 +302,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoroshiro64**")
             .arg("-s")
@@ -315,7 +317,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoroshiro128+")
             .arg("-s")
@@ -330,7 +332,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoroshiro128++")
             .arg("-s")
@@ -345,7 +347,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoroshiro128**")
             .arg("-s")
@@ -360,7 +362,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro128+")
             .arg("-s")
@@ -375,7 +377,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro128++")
             .arg("-s")
@@ -390,7 +392,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro128**")
             .arg("-s")
@@ -405,7 +407,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro256+")
             .arg("-s")
@@ -420,7 +422,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro256++")
             .arg("-s")
@@ -435,7 +437,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro256**")
             .arg("-s")
@@ -450,7 +452,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro512+")
             .arg("-s")
@@ -465,7 +467,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro512++")
             .arg("-s")
@@ -480,7 +482,7 @@ fn rng_with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-r")
             .arg("xoshiro512**")
             .arg("-s")
@@ -498,7 +500,7 @@ fn rng_with_seed() {
 
 #[test]
 fn invalid_rng() {
-    utils::command::command()
+    command::command()
         .arg("-r")
         .arg("a")
         .arg("8B")

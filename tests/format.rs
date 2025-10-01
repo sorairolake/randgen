@@ -6,10 +6,12 @@ mod utils;
 
 use predicates::prelude::predicate;
 
+use crate::utils::command;
+
 #[test]
 fn format() {
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-f")
             .arg("raw")
             .arg("1KiB")
@@ -19,7 +21,7 @@ fn format() {
         assert_eq!(output.stdout.len(), 1024);
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("--format")
             .arg("raw")
             .arg("1KiB")
@@ -32,7 +34,7 @@ fn format() {
 
 #[test]
 fn raw() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("raw")
         .arg("-s")
@@ -51,7 +53,7 @@ fn raw() {
 
 #[test]
 fn raw_with_long_output() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("raw")
         .arg("-s")
@@ -73,7 +75,7 @@ fn raw_with_long_output() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64")
         .arg("-s")
@@ -89,7 +91,7 @@ fn base64() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64_check_no_line_wrapping() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64")
         .arg("-s")
@@ -107,7 +109,7 @@ fn base64_check_no_line_wrapping() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64url() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64url")
         .arg("-s")
@@ -123,7 +125,7 @@ fn base64url() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64url_check_no_line_wrapping() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64url")
         .arg("-s")
@@ -141,7 +143,7 @@ fn base64url_check_no_line_wrapping() {
 #[cfg(feature = "hex")]
 #[test]
 fn hex() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("hex")
         .arg("-s")
@@ -157,7 +159,7 @@ fn hex() {
 #[cfg(feature = "hex")]
 #[test]
 fn hex_check_no_line_wrapping() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("hex")
         .arg("-s")
@@ -174,7 +176,7 @@ fn hex_check_no_line_wrapping() {
 
 #[test]
 fn invalid_format() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("a")
         .arg("32B")
@@ -189,7 +191,7 @@ fn invalid_format() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64_with_too_long_output() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("base64")
         .arg("12EiB")
@@ -202,7 +204,7 @@ fn base64_with_too_long_output() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64url_with_too_long_output() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("base64url")
         .arg("12EiB")
@@ -215,7 +217,7 @@ fn base64url_with_too_long_output() {
 #[cfg(feature = "hex")]
 #[test]
 fn hex_with_too_long_output() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("hex")
         .arg("8EiB")

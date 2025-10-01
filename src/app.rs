@@ -5,6 +5,8 @@
 use std::io::{self, BufWriter, IsTerminal, Write};
 
 use anyhow::Context;
+#[cfg(feature = "base64")]
+use base64::{engine::general_purpose, write::EncoderWriter};
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 
@@ -72,11 +74,11 @@ pub fn run() -> anyhow::Result<()> {
         #[cfg(feature = "base64")]
         format @ (Format::Base64 | Format::Base64Url) => {
             let engine = match format {
-                Format::Base64 => base64::engine::general_purpose::STANDARD,
-                Format::Base64Url => base64::engine::general_purpose::URL_SAFE,
+                Format::Base64 => general_purpose::STANDARD,
+                Format::Base64Url => general_purpose::URL_SAFE,
                 _ => unreachable!(),
             };
-            let mut writer = base64::write::EncoderWriter::new(writer, &engine);
+            let mut writer = EncoderWriter::new(writer, &engine);
             while remaining > 0 {
                 let chunk_size = CHUNK_SIZE.min(remaining);
                 rng.fill_bytes(&mut buf[..chunk_size]);

@@ -6,10 +6,12 @@ mod utils;
 
 use predicates::prelude::predicate;
 
+use crate::utils::command;
+
 #[test]
 fn with_seed() {
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-s")
             .arg("16")
             .arg("8B")
@@ -22,7 +24,7 @@ fn with_seed() {
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("--seed")
             .arg("16")
             .arg("8B")
@@ -38,7 +40,7 @@ fn with_seed() {
 
 #[test]
 fn validate_seed_ranges() {
-    utils::command::command()
+    command::command()
         .arg("-s")
         .arg("18446744073709551616")
         .arg("8B")
@@ -52,7 +54,7 @@ fn validate_seed_ranges() {
 
 #[test]
 fn validate_seed_with_nan() {
-    utils::command::command()
+    command::command()
         .arg("-s")
         .arg("n")
         .arg("8B")
