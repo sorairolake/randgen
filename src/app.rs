@@ -16,8 +16,8 @@ use crate::{
 };
 
 // The template string for the progress bar.
-const TEMPLATE: &str = "{spinner:.green} [{elapsed_precise}] {wide_bar:.cyan/blue} {percent}% \
-                        {binary_bytes}/{binary_total_bytes} ({binary_bytes_per_sec}, ETA {eta})";
+static TEMPLATE: &str = "{spinner:.green} [{elapsed_precise}] {wide_bar:.cyan/blue} {percent}% \
+                         {binary_bytes}/{binary_total_bytes} ({binary_bytes_per_sec}, ETA {eta})";
 
 // 1 MiB.
 const BUF_SIZE: usize = 1 << 20;
