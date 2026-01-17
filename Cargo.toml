@@ -25,7 +25,7 @@ faster-hex = { version = "0.10.0", default-features = false, features = ["std"],
 getrandom = "0.3.4"
 indicatif = "0.18.3"
 rand_chacha = "0.9.0"
-rand_core = { version = "0.9.3", features = ["os_rng", "std"] }
+rand_core = { version = "0.9.4", features = ["os_rng", "std"] }
 rand_hc = { version = "0.4.0", optional = true }
 rand_isaac = { version = "0.4.0", optional = true }
 rand_mt = { version = "5.0.0", optional = true }
