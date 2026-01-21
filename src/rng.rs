@@ -13,8 +13,6 @@ use rand_isaac::{Isaac64Rng, IsaacRng};
 use rand_mt::{Mt, Mt64};
 #[cfg(feature = "pcg")]
 use rand_pcg::{Pcg32, Pcg64, Pcg64Dxsm, Pcg64Mcg};
-#[cfg(feature = "sfc")]
-use rand_sfc::{Sfc32, Sfc64};
 #[cfg(feature = "xorshift")]
 use rand_xorshift::XorShiftRng;
 use rand_xoshiro::{
@@ -22,6 +20,8 @@ use rand_xoshiro::{
     Xoroshiro128StarStar, Xoshiro128Plus, Xoshiro128PlusPlus, Xoshiro128StarStar, Xoshiro256Plus,
     Xoshiro256PlusPlus, Xoshiro256StarStar, Xoshiro512Plus, Xoshiro512PlusPlus, Xoshiro512StarStar,
 };
+#[cfg(feature = "sfc")]
+use sfc_prng::{Sfc32, Sfc64};
 
 use crate::cli;
 

@@ -708,15 +708,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rand_sfc"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aeac24e1141afb260b799e09d7cd964fdb20bff175a57d70c4e5ce8141f5f294"
-dependencies = [
- "rand_core 0.9.5",
-]
-
-[[package]]
 name = "rand_xorshift"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -755,9 +746,9 @@ dependencies = [
  "rand_isaac",
  "rand_mt",
  "rand_pcg",
- "rand_sfc",
  "rand_xorshift",
  "rand_xoshiro",
+ "sfc-prng",
  "sigpipe",
  "sysexits",
 ]
@@ -948,6 +939,15 @@ dependencies = [
  "ryu",
  "serde",
  "serde_core",
+]
+
+[[package]]
+name = "sfc-prng"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "66ed6105071f46b57f6f2cb0bcbd63adf0e951dbe9462e63a59533bf42225b20"
+dependencies = [
+ "rand_core 0.9.5",
 ]
 
 [[package]]
