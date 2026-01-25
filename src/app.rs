@@ -42,7 +42,7 @@ pub fn run() -> anyhow::Result<()> {
     };
 
     let mut remaining = opt
-        .length
+        .bytes
         .expect("the number of bytes to generate should be provided")
         .try_into()?;
     let output_length = match opt.format {

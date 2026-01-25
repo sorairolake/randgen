@@ -53,8 +53,8 @@ pub struct Opt {
     /// [BYTES] can be suffixed with the symbol (B) and the byte prefix (such as
     /// Ki and M). If only a numeric value is specified for [BYTES], it is the
     /// same as specifying the symbol without the byte prefix.
-    #[arg(value_name("BYTES"), required_unless_present("generate_completion"))]
-    pub length: Option<Byte>,
+    #[arg(required_unless_present("generate_completion"))]
+    pub bytes: Option<Byte>,
 }
 
 impl Opt {
