@@ -29,7 +29,7 @@ rand_core = { version = "0.9.5", features = ["os_rng", "std"] }
 rand_hc = { version = "0.4.0", optional = true }
 rand_isaac = { version = "0.4.0", optional = true }
 rand_mt = { version = "5.0.0", optional = true }
-rand_pcg = { version = "0.9.0", optional = true }
+rand_pcg = { version = "0.10.0", optional = true }
 rand_xorshift = { version = "0.4.0", optional = true }
 rand_xoshiro = "0.7.0"
 sfc-prng = { version = "0.3.0", optional = true }
