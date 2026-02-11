@@ -2,22 +2,25 @@
 #
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
-name: REUSE Compliance Check
+name: just
 
 on:
   pull_request:
+    paths:
+      - justfile
   push:
-    branches:
-      - "develop"
-      - "main"
+    paths:
+      - justfile
   workflow_dispatch:
 
 jobs:
-  reuse:
-    name: REUSE
+  just:
+    name: just
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v6.0.0
+      - name: Setup just
+        uses: extractions/setup-just@v3
+      - name: Run formatter in check mode
+        run: just --fmt --check --unstable

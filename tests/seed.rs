@@ -6,10 +6,12 @@ mod utils;
 
 use predicates::prelude::predicate;
 
+use crate::utils::command;
+
 #[test]
 fn with_seed() {
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-s")
             .arg("16")
             .arg("8B")
@@ -18,11 +20,11 @@ fn with_seed() {
         assert!(output.status.success());
         assert_eq!(
             output.stdout,
-            [0x1e, 0x21, 0x9d, 0xec, 0xd1, 0x3d, 0x23, 0xdb]
+            [0x1E, 0x21, 0x9D, 0xEC, 0xD1, 0x3D, 0x23, 0xDB]
         );
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("--seed")
             .arg("16")
             .arg("8B")
@@ -31,14 +33,14 @@ fn with_seed() {
         assert!(output.status.success());
         assert_eq!(
             output.stdout,
-            [0x1e, 0x21, 0x9d, 0xec, 0xd1, 0x3d, 0x23, 0xdb]
+            [0x1E, 0x21, 0x9D, 0xEC, 0xD1, 0x3D, 0x23, 0xDB]
         );
     }
 }
 
 #[test]
 fn validate_seed_ranges() {
-    utils::command::command()
+    command::command()
         .arg("-s")
         .arg("18446744073709551616")
         .arg("8B")
@@ -52,7 +54,7 @@ fn validate_seed_ranges() {
 
 #[test]
 fn validate_seed_with_nan() {
-    utils::command::command()
+    command::command()
         .arg("-s")
         .arg("n")
         .arg("8B")

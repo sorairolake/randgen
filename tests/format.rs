@@ -6,10 +6,12 @@ mod utils;
 
 use predicates::prelude::predicate;
 
+use crate::utils::command;
+
 #[test]
 fn format() {
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("-f")
             .arg("raw")
             .arg("1KiB")
@@ -19,7 +21,7 @@ fn format() {
         assert_eq!(output.stdout.len(), 1024);
     }
     {
-        let output = utils::command::command()
+        let output = command::command()
             .arg("--format")
             .arg("raw")
             .arg("1KiB")
@@ -32,7 +34,7 @@ fn format() {
 
 #[test]
 fn raw() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("raw")
         .arg("-s")
@@ -42,16 +44,16 @@ fn raw() {
         .unwrap();
     assert!(output.status.success());
     let expected = [
-        0xd1, 0x7f, 0x36, 0xca, 0x35, 0x54, 0xd7, 0xf2, 0x4b, 0x74, 0x35, 0x34, 0xef, 0x2c, 0x09,
-        0xff, 0xb0, 0x80, 0x24, 0x1c, 0x11, 0x4c, 0x45, 0x52, 0xfe, 0x2d, 0x7e, 0x91, 0x18, 0x11,
-        0xe8, 0x74,
+        0xD1, 0x7F, 0x36, 0xCA, 0x35, 0x54, 0xD7, 0xF2, 0x4B, 0x74, 0x35, 0x34, 0xEF, 0x2C, 0x09,
+        0xFF, 0xB0, 0x80, 0x24, 0x1C, 0x11, 0x4C, 0x45, 0x52, 0xFE, 0x2D, 0x7E, 0x91, 0x18, 0x11,
+        0xE8, 0x74,
     ];
     assert_eq!(output.stdout, expected);
 }
 
 #[test]
 fn raw_with_long_output() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("raw")
         .arg("-s")
@@ -61,11 +63,11 @@ fn raw_with_long_output() {
         .unwrap();
     assert!(output.status.success());
     let expected = [
-        0xd1, 0x7f, 0x36, 0xca, 0x35, 0x54, 0xd7, 0xf2, 0x4b, 0x74, 0x35, 0x34, 0xef, 0x2c, 0x09,
-        0xff, 0xb0, 0x80, 0x24, 0x1c, 0x11, 0x4c, 0x45, 0x52, 0xfe, 0x2d, 0x7e, 0x91, 0x18, 0x11,
-        0xe8, 0x74, 0x2c, 0x6f, 0xd8, 0xc5, 0xc9, 0x03, 0x6e, 0x88, 0x52, 0x01, 0x9a, 0xb4, 0xee,
-        0x72, 0x9c, 0x2d, 0xf8, 0x26, 0x63, 0x66, 0x3f, 0x74, 0x25, 0x88, 0xc4, 0xe8, 0x3d, 0x9e,
-        0xac, 0x91, 0x27, 0xe9,
+        0xD1, 0x7F, 0x36, 0xCA, 0x35, 0x54, 0xD7, 0xF2, 0x4B, 0x74, 0x35, 0x34, 0xEF, 0x2C, 0x09,
+        0xFF, 0xB0, 0x80, 0x24, 0x1C, 0x11, 0x4C, 0x45, 0x52, 0xFE, 0x2D, 0x7E, 0x91, 0x18, 0x11,
+        0xE8, 0x74, 0x2C, 0x6F, 0xD8, 0xC5, 0xC9, 0x03, 0x6E, 0x88, 0x52, 0x01, 0x9A, 0xB4, 0xEE,
+        0x72, 0x9C, 0x2D, 0xF8, 0x26, 0x63, 0x66, 0x3F, 0x74, 0x25, 0x88, 0xC4, 0xE8, 0x3D, 0x9E,
+        0xAC, 0x91, 0x27, 0xE9,
     ];
     assert_eq!(output.stdout, expected);
 }
@@ -73,7 +75,7 @@ fn raw_with_long_output() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64")
         .arg("-s")
@@ -89,7 +91,7 @@ fn base64() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64_check_no_line_wrapping() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64")
         .arg("-s")
@@ -107,7 +109,7 @@ fn base64_check_no_line_wrapping() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64url() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64url")
         .arg("-s")
@@ -123,7 +125,7 @@ fn base64url() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64url_check_no_line_wrapping() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("base64url")
         .arg("-s")
@@ -141,7 +143,7 @@ fn base64url_check_no_line_wrapping() {
 #[cfg(feature = "hex")]
 #[test]
 fn hex() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("hex")
         .arg("-s")
@@ -157,7 +159,7 @@ fn hex() {
 #[cfg(feature = "hex")]
 #[test]
 fn hex_check_no_line_wrapping() {
-    let output = utils::command::command()
+    let output = command::command()
         .arg("-f")
         .arg("hex")
         .arg("-s")
@@ -174,7 +176,7 @@ fn hex_check_no_line_wrapping() {
 
 #[test]
 fn invalid_format() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("a")
         .arg("32B")
@@ -189,7 +191,7 @@ fn invalid_format() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64_with_too_long_output() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("base64")
         .arg("12EiB")
@@ -202,7 +204,7 @@ fn base64_with_too_long_output() {
 #[cfg(feature = "base64")]
 #[test]
 fn base64url_with_too_long_output() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("base64url")
         .arg("12EiB")
@@ -215,7 +217,7 @@ fn base64url_with_too_long_output() {
 #[cfg(feature = "hex")]
 #[test]
 fn hex_with_too_long_output() {
-    utils::command::command()
+    command::command()
         .arg("-f")
         .arg("hex")
         .arg("8EiB")

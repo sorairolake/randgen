@@ -2,22 +2,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
-name: REUSE Compliance Check
+name: Shell script
 
 on:
   pull_request:
+    paths:
+      - "**.bash"
   push:
-    branches:
-      - "develop"
-      - "main"
+    paths:
+      - "**.bash"
   workflow_dispatch:
 
 jobs:
-  reuse:
-    name: REUSE
+  shell-script:
+    name: Shell script
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v6.0.0
+      - name: Run the sh-checker
+        uses: luizm/action-sh-checker@v0.10.0

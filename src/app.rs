@@ -5,6 +5,8 @@
 use std::io::{self, BufWriter, IsTerminal, Write};
 
 use anyhow::Context;
+#[cfg(feature = "base64")]
+use base64::{engine::general_purpose, write::EncoderWriter};
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressFinish, ProgressStyle};
 
@@ -14,8 +16,8 @@ use crate::{
 };
 
 // The template string for the progress bar.
-const TEMPLATE: &str = "{spinner:.green} [{elapsed_precise}] {wide_bar:.cyan/blue} {percent}% \
-                        {binary_bytes}/{binary_total_bytes} ({binary_bytes_per_sec}, ETA {eta})";
+static TEMPLATE: &str = "{spinner:.green} [{elapsed_precise}] {wide_bar:.cyan/blue} {percent}% \
+                         {binary_bytes}/{binary_total_bytes} ({binary_bytes_per_sec}, ETA {eta})";
 
 // 1 MiB.
 const BUF_SIZE: usize = 1 << 20;
@@ -36,11 +38,11 @@ pub fn run() -> anyhow::Result<()> {
     let mut rng = if let Some(seed) = opt.seed {
         Rng::seed_from_u64(&rng, seed)
     } else {
-        Rng::try_from_os_rng(&rng).context("could not create a new instance of the RNG")?
+        Rng::try_from_rng(&rng).context("could not create a new instance of the RNG")?
     };
 
     let mut remaining = opt
-        .length
+        .bytes
         .expect("the number of bytes to generate should be provided")
         .try_into()?;
     let output_length = match opt.format {
@@ -72,11 +74,11 @@ pub fn run() -> anyhow::Result<()> {
         #[cfg(feature = "base64")]
         format @ (Format::Base64 | Format::Base64Url) => {
             let engine = match format {
-                Format::Base64 => base64::engine::general_purpose::STANDARD,
-                Format::Base64Url => base64::engine::general_purpose::URL_SAFE,
+                Format::Base64 => general_purpose::STANDARD,
+                Format::Base64Url => general_purpose::URL_SAFE,
                 _ => unreachable!(),
             };
-            let mut writer = base64::write::EncoderWriter::new(writer, &engine);
+            let mut writer = EncoderWriter::new(writer, &engine);
             while remaining > 0 {
                 let chunk_size = CHUNK_SIZE.min(remaining);
                 rng.fill_bytes(&mut buf[..chunk_size]);

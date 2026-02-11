@@ -8,6 +8,8 @@ mod rng;
 
 use std::{io, process::ExitCode};
 
+use rand::rngs::SysError;
+
 fn main() -> ExitCode {
     sigpipe::reset();
 
@@ -18,7 +20,7 @@ fn main() -> ExitCode {
             if let Some(e) = err.downcast_ref::<io::Error>() {
                 return sysexits::ExitCode::from(e.kind()).into();
             }
-            if let Some(e) = err.downcast_ref::<getrandom::Error>() {
+            if let Some(e) = err.downcast_ref::<SysError>() {
                 return sysexits::ExitCode::from(io::Error::from(*e)).into();
             }
             ExitCode::FAILURE
