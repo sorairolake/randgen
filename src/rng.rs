@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-use getrandom::Error;
+use rand::{
+    Rng as _, SeedableRng,
+    rngs::{SysError, SysRng},
+};
 use rand_chacha::{ChaCha8Rng, ChaCha12Rng, ChaCha20Rng};
-use rand_core::{RngCore, SeedableRng};
 #[cfg(feature = "hc")]
 use rand_hc::Hc128Rng;
 #[cfg(feature = "isaac")]
@@ -13,6 +15,8 @@ use rand_isaac::{Isaac64Rng, IsaacRng};
 use rand_mt::{Mt, Mt64};
 #[cfg(feature = "pcg")]
 use rand_pcg::{Pcg32, Pcg64, Pcg64Dxsm, Pcg64Mcg};
+#[cfg(feature = "sfc")]
+use rand_sfc::{Sfc32, Sfc64};
 #[cfg(feature = "xorshift")]
 use rand_xorshift::XorShiftRng;
 use rand_xoshiro::{
@@ -20,8 +24,6 @@ use rand_xoshiro::{
     Xoroshiro128StarStar, Xoshiro128Plus, Xoshiro128PlusPlus, Xoshiro128StarStar, Xoshiro256Plus,
     Xoshiro256PlusPlus, Xoshiro256StarStar, Xoshiro512Plus, Xoshiro512PlusPlus, Xoshiro512StarStar,
 };
-#[cfg(feature = "sfc")]
-use sfc_prng::{Sfc32, Sfc64};
 
 use crate::cli;
 
@@ -188,77 +190,77 @@ impl Rng {
         }
     }
 
-    pub fn try_from_os_rng(rng: &cli::Rng) -> Result<Self, Error> {
+    pub fn try_from_rng(rng: &cli::Rng) -> Result<Self, SysError> {
         match rng {
-            cli::Rng::ChaCha8 => Ok(Self::ChaCha8(ChaCha8Rng::try_from_os_rng()?)),
-            cli::Rng::ChaCha12 => Ok(Self::ChaCha12(ChaCha12Rng::try_from_os_rng()?)),
-            cli::Rng::ChaCha20 => Ok(Self::ChaCha20(ChaCha20Rng::try_from_os_rng()?)),
+            cli::Rng::ChaCha8 => Ok(Self::ChaCha8(ChaCha8Rng::try_from_rng(&mut SysRng)?)),
+            cli::Rng::ChaCha12 => Ok(Self::ChaCha12(ChaCha12Rng::try_from_rng(&mut SysRng)?)),
+            cli::Rng::ChaCha20 => Ok(Self::ChaCha20(ChaCha20Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "hc")]
-            cli::Rng::Hc128 => Ok(Self::Hc128(Hc128Rng::try_from_os_rng()?)),
+            cli::Rng::Hc128 => Ok(Self::Hc128(Hc128Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "isaac")]
-            cli::Rng::Isaac => Ok(Self::Isaac(IsaacRng::try_from_os_rng()?)),
+            cli::Rng::Isaac => Ok(Self::Isaac(IsaacRng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "isaac")]
-            cli::Rng::Isaac64 => Ok(Self::Isaac64(Isaac64Rng::try_from_os_rng()?)),
+            cli::Rng::Isaac64 => Ok(Self::Isaac64(Isaac64Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "mt")]
-            cli::Rng::Mt => Ok(Self::Mt(Mt::try_from_os_rng()?)),
+            cli::Rng::Mt => Ok(Self::Mt(Mt::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "mt")]
-            cli::Rng::Mt64 => Ok(Self::Mt64(Mt64::try_from_os_rng()?)),
+            cli::Rng::Mt64 => Ok(Self::Mt64(Mt64::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "pcg")]
-            cli::Rng::Pcg32 => Ok(Self::Pcg32(Pcg32::try_from_os_rng()?)),
+            cli::Rng::Pcg32 => Ok(Self::Pcg32(Pcg32::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "pcg")]
-            cli::Rng::Pcg64 => Ok(Self::Pcg64(Pcg64::try_from_os_rng()?)),
+            cli::Rng::Pcg64 => Ok(Self::Pcg64(Pcg64::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "pcg")]
-            cli::Rng::Pcg64Dxsm => Ok(Self::Pcg64Dxsm(Pcg64Dxsm::try_from_os_rng()?)),
+            cli::Rng::Pcg64Dxsm => Ok(Self::Pcg64Dxsm(Pcg64Dxsm::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "pcg")]
-            cli::Rng::Pcg64Mcg => Ok(Self::Pcg64Mcg(Pcg64Mcg::try_from_os_rng()?)),
+            cli::Rng::Pcg64Mcg => Ok(Self::Pcg64Mcg(Pcg64Mcg::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "sfc")]
-            cli::Rng::Sfc32 => Ok(Self::Sfc32(Sfc32::try_from_os_rng()?)),
+            cli::Rng::Sfc32 => Ok(Self::Sfc32(Sfc32::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "sfc")]
-            cli::Rng::Sfc64 => Ok(Self::Sfc64(Sfc64::try_from_os_rng()?)),
-            cli::Rng::SplitMix64 => Ok(Self::SplitMix64(SplitMix64::try_from_os_rng()?)),
+            cli::Rng::Sfc64 => Ok(Self::Sfc64(Sfc64::try_from_rng(&mut SysRng)?)),
+            cli::Rng::SplitMix64 => Ok(Self::SplitMix64(SplitMix64::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "xorshift")]
-            cli::Rng::XorShift => Ok(Self::XorShift(XorShiftRng::try_from_os_rng()?)),
-            cli::Rng::Xoroshiro64Star => {
-                Ok(Self::Xoroshiro64Star(Xoroshiro64Star::try_from_os_rng()?))
-            }
+            cli::Rng::XorShift => Ok(Self::XorShift(XorShiftRng::try_from_rng(&mut SysRng)?)),
+            cli::Rng::Xoroshiro64Star => Ok(Self::Xoroshiro64Star(Xoroshiro64Star::try_from_rng(
+                &mut SysRng,
+            )?)),
             cli::Rng::Xoroshiro64StarStar => Ok(Self::Xoroshiro64StarStar(
-                Xoroshiro64StarStar::try_from_os_rng()?,
+                Xoroshiro64StarStar::try_from_rng(&mut SysRng)?,
             )),
-            cli::Rng::Xoroshiro128Plus => {
-                Ok(Self::Xoroshiro128Plus(Xoroshiro128Plus::try_from_os_rng()?))
-            }
+            cli::Rng::Xoroshiro128Plus => Ok(Self::Xoroshiro128Plus(
+                Xoroshiro128Plus::try_from_rng(&mut SysRng)?,
+            )),
             cli::Rng::Xoroshiro128PlusPlus => Ok(Self::Xoroshiro128PlusPlus(
-                Xoroshiro128PlusPlus::try_from_os_rng()?,
+                Xoroshiro128PlusPlus::try_from_rng(&mut SysRng)?,
             )),
             cli::Rng::Xoroshiro128StarStar => Ok(Self::Xoroshiro128StarStar(
-                Xoroshiro128StarStar::try_from_os_rng()?,
+                Xoroshiro128StarStar::try_from_rng(&mut SysRng)?,
             )),
-            cli::Rng::Xoshiro128Plus => {
-                Ok(Self::Xoshiro128Plus(Xoshiro128Plus::try_from_os_rng()?))
-            }
+            cli::Rng::Xoshiro128Plus => Ok(Self::Xoshiro128Plus(Xoshiro128Plus::try_from_rng(
+                &mut SysRng,
+            )?)),
             cli::Rng::Xoshiro128PlusPlus => Ok(Self::Xoshiro128PlusPlus(
-                Xoshiro128PlusPlus::try_from_os_rng()?,
+                Xoshiro128PlusPlus::try_from_rng(&mut SysRng)?,
             )),
             cli::Rng::Xoshiro128StarStar => Ok(Self::Xoshiro128StarStar(
-                Xoshiro128StarStar::try_from_os_rng()?,
+                Xoshiro128StarStar::try_from_rng(&mut SysRng)?,
             )),
-            cli::Rng::Xoshiro256Plus => {
-                Ok(Self::Xoshiro256Plus(Xoshiro256Plus::try_from_os_rng()?))
-            }
+            cli::Rng::Xoshiro256Plus => Ok(Self::Xoshiro256Plus(Xoshiro256Plus::try_from_rng(
+                &mut SysRng,
+            )?)),
             cli::Rng::Xoshiro256PlusPlus => Ok(Self::Xoshiro256PlusPlus(
-                Xoshiro256PlusPlus::try_from_os_rng()?,
+                Xoshiro256PlusPlus::try_from_rng(&mut SysRng)?,
             )),
             cli::Rng::Xoshiro256StarStar => Ok(Self::Xoshiro256StarStar(
-                Xoshiro256StarStar::try_from_os_rng()?,
+                Xoshiro256StarStar::try_from_rng(&mut SysRng)?,
             )),
-            cli::Rng::Xoshiro512Plus => {
-                Ok(Self::Xoshiro512Plus(Xoshiro512Plus::try_from_os_rng()?))
-            }
+            cli::Rng::Xoshiro512Plus => Ok(Self::Xoshiro512Plus(Xoshiro512Plus::try_from_rng(
+                &mut SysRng,
+            )?)),
             cli::Rng::Xoshiro512PlusPlus => Ok(Self::Xoshiro512PlusPlus(
-                Xoshiro512PlusPlus::try_from_os_rng()?,
+                Xoshiro512PlusPlus::try_from_rng(&mut SysRng)?,
             )),
             cli::Rng::Xoshiro512StarStar => Ok(Self::Xoshiro512StarStar(
-                Xoshiro512StarStar::try_from_os_rng()?,
+                Xoshiro512StarStar::try_from_rng(&mut SysRng)?,
             )),
         }
     }

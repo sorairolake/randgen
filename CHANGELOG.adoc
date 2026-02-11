@@ -20,6 +20,10 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 * Add more archive formats for releases ({pull-request-url}/130[#130])
 
+=== Changed
+
+* Migrate to `rand` v0.10 ({pull-request-url}/188[#188])
+
 === Fixed
 
 * Fix the result of SFC RNGs ({pull-request-url}/167[#167])

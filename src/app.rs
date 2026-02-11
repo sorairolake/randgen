@@ -38,7 +38,7 @@ pub fn run() -> anyhow::Result<()> {
     let mut rng = if let Some(seed) = opt.seed {
         Rng::seed_from_u64(&rng, seed)
     } else {
-        Rng::try_from_os_rng(&rng).context("could not create a new instance of the RNG")?
+        Rng::try_from_rng(&rng).context("could not create a new instance of the RNG")?
     };
 
     let mut remaining = opt
