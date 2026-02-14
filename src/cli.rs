@@ -70,7 +70,6 @@ impl Opt {
 }
 
 #[derive(Clone, Debug, ValueEnum)]
-#[allow(clippy::doc_markdown)]
 #[value(rename_all = "lower")]
 pub enum Shell {
     /// Bash.
