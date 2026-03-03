@@ -41,10 +41,7 @@ pub fn run() -> anyhow::Result<()> {
         Rng::try_from_rng(&rng).context("could not create a new instance of the RNG")?
     };
 
-    let mut remaining = opt
-        .bytes
-        .expect("the number of bytes to generate should be provided")
-        .try_into()?;
+    let mut remaining = opt.bytes.unwrap().try_into()?;
     let output_length = match opt.format {
         Format::Raw => Some(remaining),
         #[cfg(feature = "base64")]
