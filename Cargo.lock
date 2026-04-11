@@ -745,9 +745,9 @@ dependencies = [
 
 [[package]]
 name = "rand_mt"
-version = "6.0.1"
+version = "6.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f0d59333477bc9d764d459adf2dd29265af9905a0b01d610e1b4eec39c40c9c5"
+checksum = "0ff5d918f2aaa32ea701b731d7f9f59d8e00019f7ad79da1a2b091eaaeff4224"
 dependencies = [
  "rand_core 0.10.0",
 ]
