@@ -24,6 +24,10 @@ generator (PRNG).
 cargo install randgen
 ```
 
+### Via a package manager
+
+[![Packaging status][repology-badge]][repology-versions]
+
 ### From binaries
 
 The [release page] contains pre-built binaries for Linux, macOS and Windows.
@@ -255,6 +259,8 @@ licensing information.
 [version-url]: https://crates.io/crates/randgen
 [msrv-badge]: https://img.shields.io/crates/msrv/randgen?style=for-the-badge&logo=rust
 [license-badge]: https://img.shields.io/crates/l/randgen?style=for-the-badge
+[repology-badge]: https://repology.org/badge/vertical-allrepos/randgen.svg?columns=3
+[repology-versions]: https://repology.org/project/randgen/versions
 [release page]: https://github.com/sorairolake/randgen/releases
 [BUILD.adoc]: BUILD.adoc
 [base64]: https://datatracker.ietf.org/doc/html/rfc4648#section-4
