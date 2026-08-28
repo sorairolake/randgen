@@ -10,6 +10,7 @@ use rand_chacha::{ChaCha8Rng, ChaCha12Rng, ChaCha20Rng};
 #[cfg(feature = "hc")]
 use rand_hc::Hc128Rng;
 #[cfg(feature = "isaac")]
+#[allow(deprecated)]
 use rand_isaac::{Isaac64Rng, IsaacRng};
 #[cfg(feature = "mt")]
 use rand_mt::{Mt, Mt64};
@@ -35,8 +36,10 @@ pub enum Rng {
     #[cfg(feature = "hc")]
     Hc128(Hc128Rng),
     #[cfg(feature = "isaac")]
+    #[allow(deprecated)]
     Isaac(IsaacRng),
     #[cfg(feature = "isaac")]
+    #[allow(deprecated)]
     Isaac64(Isaac64Rng),
     #[cfg(feature = "mt")]
     Mt(Mt),
@@ -129,8 +132,10 @@ impl Rng {
             #[cfg(feature = "hc")]
             cli::Rng::Hc128 => Self::Hc128(Hc128Rng::seed_from_u64(state)),
             #[cfg(feature = "isaac")]
+            #[allow(deprecated)]
             cli::Rng::Isaac => Self::Isaac(IsaacRng::seed_from_u64(state)),
             #[cfg(feature = "isaac")]
+            #[allow(deprecated)]
             cli::Rng::Isaac64 => Self::Isaac64(Isaac64Rng::seed_from_u64(state)),
             #[cfg(feature = "mt")]
             cli::Rng::Mt => Self::Mt(Mt::seed_from_u64(state)),
@@ -198,8 +203,10 @@ impl Rng {
             #[cfg(feature = "hc")]
             cli::Rng::Hc128 => Ok(Self::Hc128(Hc128Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "isaac")]
+            #[allow(deprecated)]
             cli::Rng::Isaac => Ok(Self::Isaac(IsaacRng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "isaac")]
+            #[allow(deprecated)]
             cli::Rng::Isaac64 => Ok(Self::Isaac64(Isaac64Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "mt")]
             cli::Rng::Mt => Ok(Self::Mt(Mt::try_from_rng(&mut SysRng)?)),
