@@ -137,7 +137,7 @@ pub enum Format {
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, ValueEnum)]
-#[allow(clippy::doc_markdown)]
+#[expect(clippy::doc_markdown)]
 #[value(rename_all = "lower")]
 pub enum Rng {
     /// A CSPRNG that uses the ChaCha8 algorithm.
