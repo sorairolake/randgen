@@ -14,6 +14,12 @@ All notable changes to this project will be documented in this file.
 The format is based on https://keepachangelog.com/[Keep a Changelog], and this
 project adheres to https://semver.org/[Semantic Versioning].
 
+== {compare-url}/v0.2.0\...HEAD[Unreleased]
+
+=== Removed
+
+* Remove ISAAC RNGs support ({pull-request-url}/334[#334])
+
 == {compare-url}/v0.1.6\...v0.2.0[0.2.0] - 2026-02-11
 
 === Added
