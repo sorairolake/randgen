@@ -154,14 +154,6 @@ pub enum Rng {
     #[cfg(feature = "hc")]
     Hc128,
 
-    /// A PRNG that uses the ISAAC algorithm.
-    #[cfg(feature = "isaac")]
-    Isaac,
-
-    /// A PRNG that uses the ISAAC-64 algorithm.
-    #[cfg(feature = "isaac")]
-    Isaac64,
-
     /// The MT19937 PRNG.
     #[cfg(feature = "mt")]
     Mt,

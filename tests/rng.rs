@@ -95,38 +95,6 @@ fn rng_with_seed() {
             [0x41, 0xBF, 0x56, 0xAC, 0x65, 0x23, 0x21, 0x97]
         );
     }
-    #[cfg(feature = "isaac")]
-    {
-        let output = command::command()
-            .arg("-r")
-            .arg("isaac")
-            .arg("-s")
-            .arg("16")
-            .arg("8B")
-            .output()
-            .unwrap();
-        assert!(output.status.success());
-        assert_eq!(
-            output.stdout,
-            [0x40, 0x82, 0x37, 0x31, 0x14, 0x92, 0xF4, 0x2B]
-        );
-    }
-    #[cfg(feature = "isaac")]
-    {
-        let output = command::command()
-            .arg("-r")
-            .arg("isaac64")
-            .arg("-s")
-            .arg("16")
-            .arg("8B")
-            .output()
-            .unwrap();
-        assert!(output.status.success());
-        assert_eq!(
-            output.stdout,
-            [0x90, 0xB3, 0x17, 0xB0, 0x94, 0xBF, 0xF7, 0xBB]
-        );
-    }
     #[cfg(feature = "mt")]
     {
         let output = command::command()

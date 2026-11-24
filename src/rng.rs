@@ -9,9 +9,6 @@ use rand::{
 use rand_chacha::{ChaCha8Rng, ChaCha12Rng, ChaCha20Rng};
 #[cfg(feature = "hc")]
 use rand_hc::Hc128Rng;
-#[cfg(feature = "isaac")]
-#[expect(deprecated)]
-use rand_isaac::{Isaac64Rng, IsaacRng};
 #[cfg(feature = "mt")]
 use rand_mt::{Mt, Mt64};
 #[cfg(feature = "pcg")]
@@ -29,18 +26,13 @@ use rand_xoshiro::{
 use crate::cli;
 
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "hc", expect(clippy::large_enum_variant))]
 pub enum Rng {
     ChaCha8(ChaCha8Rng),
     ChaCha12(ChaCha12Rng),
     ChaCha20(ChaCha20Rng),
     #[cfg(feature = "hc")]
     Hc128(Hc128Rng),
-    #[cfg(feature = "isaac")]
-    #[expect(deprecated)]
-    Isaac(IsaacRng),
-    #[cfg(feature = "isaac")]
-    #[expect(deprecated)]
-    Isaac64(Isaac64Rng),
     #[cfg(feature = "mt")]
     Mt(Mt),
     #[cfg(feature = "mt")]
@@ -84,10 +76,6 @@ impl Rng {
             Self::ChaCha20(rng) => rng.fill_bytes(dst),
             #[cfg(feature = "hc")]
             Self::Hc128(rng) => rng.fill_bytes(dst),
-            #[cfg(feature = "isaac")]
-            Self::Isaac(rng) => rng.fill_bytes(dst),
-            #[cfg(feature = "isaac")]
-            Self::Isaac64(rng) => rng.fill_bytes(dst),
             #[cfg(feature = "mt")]
             Self::Mt(rng) => rng.fill_bytes(dst),
             #[cfg(feature = "mt")]
@@ -131,12 +119,6 @@ impl Rng {
             cli::Rng::ChaCha20 => Self::ChaCha20(ChaCha20Rng::seed_from_u64(state)),
             #[cfg(feature = "hc")]
             cli::Rng::Hc128 => Self::Hc128(Hc128Rng::seed_from_u64(state)),
-            #[cfg(feature = "isaac")]
-            #[expect(deprecated)]
-            cli::Rng::Isaac => Self::Isaac(IsaacRng::seed_from_u64(state)),
-            #[cfg(feature = "isaac")]
-            #[expect(deprecated)]
-            cli::Rng::Isaac64 => Self::Isaac64(Isaac64Rng::seed_from_u64(state)),
             #[cfg(feature = "mt")]
             cli::Rng::Mt => Self::Mt(Mt::seed_from_u64(state)),
             #[cfg(feature = "mt")]
@@ -202,12 +184,6 @@ impl Rng {
             cli::Rng::ChaCha20 => Ok(Self::ChaCha20(ChaCha20Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "hc")]
             cli::Rng::Hc128 => Ok(Self::Hc128(Hc128Rng::try_from_rng(&mut SysRng)?)),
-            #[cfg(feature = "isaac")]
-            #[expect(deprecated)]
-            cli::Rng::Isaac => Ok(Self::Isaac(IsaacRng::try_from_rng(&mut SysRng)?)),
-            #[cfg(feature = "isaac")]
-            #[expect(deprecated)]
-            cli::Rng::Isaac64 => Ok(Self::Isaac64(Isaac64Rng::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "mt")]
             cli::Rng::Mt => Ok(Self::Mt(Mt::try_from_rng(&mut SysRng)?)),
             #[cfg(feature = "mt")]
