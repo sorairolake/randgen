@@ -24,7 +24,6 @@ clap_complete_nushell = "4.6.0"
 indicatif = "0.18.4"
 rand_chacha = "0.10.0"
 rand_hc = { version = "0.5.0", optional = true }
-rand_isaac = { version = "0.5.0", optional = true }
 rand_mt = { version = "6.0.3", optional = true }
 rand_pcg = { version = "0.10.2", optional = true }
 rand_sfc = { version = "0.2.0", optional = true }
@@ -49,11 +48,10 @@ assert_cmd = "2.2.1"
 predicates = "3.1.4"
 
 [features]
-default = ["base64", "hc", "hex", "isaac", "mt", "pcg", "sfc", "xorshift"]
+default = ["base64", "hc", "hex", "mt", "pcg", "sfc", "xorshift"]
 base64 = ["dep:base64"]
 hc = ["dep:rand_hc"]
 hex = ["dep:faster-hex"]
-isaac = ["dep:rand_isaac"]
 mt = ["dep:rand_mt"]
 pcg = ["dep:rand_pcg"]
 sfc = ["dep:rand_sfc"]
