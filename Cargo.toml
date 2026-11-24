@@ -48,7 +48,15 @@ assert_cmd = "2.2.1"
 predicates = "3.1.4"
 
 [features]
-default = ["base64", "hc", "hex", "mt", "pcg", "sfc", "xorshift"]
+default = [
+  "base64",
+  "hc",
+  "hex",
+  "mt",
+  "pcg",
+  "sfc",
+  "xorshift",
+]
 base64 = ["dep:base64"]
 hc = ["dep:rand_hc"]
 hex = ["dep:faster-hex"]
