@@ -31,7 +31,7 @@ pub enum Rng {
     ChaCha12(ChaCha12Rng),
     ChaCha20(ChaCha20Rng),
     #[cfg(feature = "hc")]
-    Hc128(Hc128Rng),
+    Hc128(Box<Hc128Rng>),
     #[cfg(feature = "mt")]
     Mt(Mt),
     #[cfg(feature = "mt")]
