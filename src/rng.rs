@@ -26,7 +26,6 @@ use rand_xoshiro::{
 use crate::cli;
 
 #[derive(Clone, Debug)]
-#[expect(clippy::large_enum_variant)]
 pub enum Rng {
     ChaCha8(ChaCha8Rng),
     ChaCha12(ChaCha12Rng),
