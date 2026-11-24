@@ -14,6 +14,17 @@ keywords = ["random"]
 categories = ["command-line-utilities"]
 include = ["/LICENSES", "/README.md", "/src"]
 
+[features]
+default = ["base64", "hc", "hex", "isaac", "mt", "pcg", "sfc", "xorshift"]
+base64 = ["dep:base64"]
+hc = ["dep:rand_hc"]
+hex = ["dep:faster-hex"]
+isaac = ["dep:rand_isaac"]
+mt = ["dep:rand_mt"]
+pcg = ["dep:rand_pcg"]
+sfc = ["dep:rand_sfc"]
+xorshift = ["dep:rand_xorshift"]
+
 [dependencies]
 anyhow = "1.0.102"
 base64 = { version = "0.23.1", optional = true }
@@ -47,17 +58,6 @@ features = ["std", "sys_rng"]
 [dev-dependencies]
 assert_cmd = "2.2.1"
 predicates = "3.1.4"
-
-[features]
-default = ["base64", "hc", "hex", "isaac", "mt", "pcg", "sfc", "xorshift"]
-base64 = ["dep:base64"]
-hc = ["dep:rand_hc"]
-hex = ["dep:faster-hex"]
-isaac = ["dep:rand_isaac"]
-mt = ["dep:rand_mt"]
-pcg = ["dep:rand_pcg"]
-sfc = ["dep:rand_sfc"]
-xorshift = ["dep:rand_xorshift"]
 
 [lints.clippy]
 cargo = { level = "warn", priority = -1 }
