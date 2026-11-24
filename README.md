@@ -74,7 +74,6 @@ randgen 256 | base64 -w 0
 
 Supported PRNGs are:
 
-- [ISAAC] RNGs (if enabled at compile time)
 - [Mersenne Twister] RNGs (if enabled at compile time)
 - [PCG] RNGs (if enabled at compile time)
 - [SFC] RNGs (if enabled at compile time)
@@ -265,7 +264,6 @@ licensing information.
 [BUILD.adoc]: BUILD.adoc
 [base64]: https://datatracker.ietf.org/doc/html/rfc4648#section-4
 [URL-safe base64]: https://datatracker.ietf.org/doc/html/rfc4648#section-5
-[ISAAC]: https://www.burtleburtle.net/bob/rand/isaacafa.html
 [Mersenne Twister]: https://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/emt.html
 [PCG]: https://www.pcg-random.org/
 [SFC]: https://pracrand.sourceforge.net/RNG_engines.txt
